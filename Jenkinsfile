@@ -54,9 +54,7 @@ pipeline{
         }
         always{
             script{
-                sh```
-                docker rmi ${IMAGE_NAME}:${BUILD_NUMBER} || true
-                ```
+                sh"docker rmi ${IMAGE_NAME}:${BUILD_NUMBER} || true"
             }
             cleanWs()
         }
