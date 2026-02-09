@@ -20,27 +20,27 @@ pipeline{
         stage('Test Site in Docker Container'){
             steps{
                 script{
-                    sh```
+                    sh"""
                     docker run -d -p 80:80 --name test-container ${IMAGE_NAME}:${BUILD_NUMBER}
                     sleep 5
                     curl -f http://localhost || exit 1
                     curl -f http://localhost/index.html || exit 1
                     docker stop test-container
                     docker rm test-container
-                    ```
+                    """
                 }
             }
         }
         stage('Deploy to S3'){
             steps{
                 script{
-                    sh```
+                    sh"""
                     aws s3 sync . s3://${S3_BUCKET} \
                     --delete \
                     --exclude ".git/*" \
                     --exclude "Jenkinsfile" \
                     --exclude "Dockerfile"
-                    ```
+                    """
                 }
             }
         }
